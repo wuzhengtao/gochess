@@ -11,7 +11,7 @@ import java.util.Map;
  * @CreateDate: 2018/3/13 上午11:01
  * @UpdateUser: wuzht
  * @UpdateDate: 2018/3/13 上午11:01
- *
+ * <p>
  * 这个是逻辑类
  */
 public class CheckPiece {
@@ -27,13 +27,13 @@ public class CheckPiece {
     /**
      * 这个类就是在落子之后，判断落子是否合理，以及有没有提子的情况
      * 主要方法：
-     *  判断上下左右四个方向，如果是对方的子，则判断这个子是否能继续存活，如果死了，则放入buffer，且isKill为真
-     *  如果有提子的情况发生，则清理buffer，进行提子动作
-     *  然后判断本身是否存活
-     *  最后如果提子数为1，则被提的这个点为禁着点，也就是下一步不能走这儿
+     * 判断上下左右四个方向，如果是对方的子，则判断这个子是否能继续存活，如果死了，则放入buffer，且isKill为真
+     * 如果有提子的情况发生，则清理buffer，进行提子动作
+     * 然后判断本身是否存活
+     * 最后如果提子数为1，则被提的这个点为禁着点，也就是下一步不能走这儿
      *
-     * @param x 下棋的横坐标
-     * @param y 下棋的纵坐标
+     * @param x        下棋的横坐标
+     * @param y        下棋的纵坐标
      * @param chessman 下棋方
      * @return boolean
      */
@@ -41,7 +41,12 @@ public class CheckPiece {
         Piece piece = board.newPiece(x, y, chessman);
         boolean isKill = false;
         buffer.clear();
+        if (x > 8 || x < 0 || y > 8 || y < 0) {
+            System.out.println("超出棋盘范围了");
+            return false;
+        }
         if (!board.setCell(piece)) {
+            System.out.println("该处有棋子，请重新下棋");
             return false;
         }
         if (board.isKo(x, y)) {
@@ -101,13 +106,13 @@ public class CheckPiece {
     /**
      * 这个方法是判断棋子是否存活
      * 主要方法
-     *  只要开始判断就将棋子存入buffer
-     *  分别判断上下左右，如果从某个方向过来，则这个方向不进行判断
-     *  只要有一个方向判断是真，则这个棋子就存活了，将buffer里的状态修改为true
-     *  四个方向都为假，则这个棋子就死了，状态修改为false
+     * 只要开始判断就将棋子存入buffer
+     * 分别判断上下左右，如果从某个方向过来，则这个方向不进行判断
+     * 只要有一个方向判断是真，则这个棋子就存活了，将buffer里的状态修改为true
+     * 四个方向都为假，则这个棋子就死了，状态修改为false
      *
      * @param piece 待判断的棋子
-     * @param dir 是从哪个方向到这个棋子的，方向一共五个，见枚举
+     * @param dir   是从哪个方向到这个棋子的，方向一共五个，见枚举
      * @return boolean
      */
     private boolean isAlive(Piece piece, Direction dir) {
@@ -159,8 +164,9 @@ public class CheckPiece {
      * 判断单个点是否存活
      * 如果这个点是 气 ，则返回true
      * 如果这个点的棋子颜色相同，则返回这个棋子的状态
+     *
      * @param tempPiece 判断的点
-     * @param dir 方向
+     * @param dir       方向
      * @return boolean
      */
     private boolean isPieceAlive(Piece tempPiece, Direction dir) {

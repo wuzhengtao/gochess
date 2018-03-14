@@ -39,7 +39,6 @@ public class BoardView {
              * 3。此处是死路或者是禁着点
              */
             while (!cp.check(x, y, chessman)) {
-                System.out.println("该处有棋子，请重新下棋");
                 System.out.println("请输入 x 和 y 值，0～8，空格分割");
                 input = scanner.nextLine();
                 inputs = input.split(" ");
